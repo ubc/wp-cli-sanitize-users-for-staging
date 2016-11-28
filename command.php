@@ -5,18 +5,20 @@ if ( ! class_exists( 'WP_CLI' ) ) {
 }
 
 
-class UBC_Sanitize_Users_For_Staging {
+class UBC_Sanitize_For_Staging {
+
+	public $keep_users = false;
 
 	/**
-	 * Migrate one or more individual sites in a multisite install to be served via SSL.
+	 * Sanitize users tables (inc. meta) when migrating from prod->staging|local
 	 *
 	 * ## OPTIONS
 	 *
-	 * [--sites]
-	 * : Either a single site ID, a single domain name or a comma separated list of either
+	 * [--keep]
+	 * : Either a single user ID or a comma separated list of user IDs to keep
 	 *
 	 * [--dry-run]
-	 * : Don't actually make the replacements, but print out what they would be.
+	 * : Don't actually make the removals, but print out what they would be.
 	 *
 	 * [--verbose]
 	 * : I heard you like logs in your logs?
@@ -24,27 +26,25 @@ class UBC_Sanitize_Users_For_Staging {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp migrate-to-ssl migrate --sites="123"
-	 *     wp migrate-to-ssl migrate --sites="subdomain.yoursite.com"
-	 *     wp migrate-to-ssl migrate --sites="domainmappedsite.com"
-	 *     wp migrate-to-ssl migrate --sites="123,456,789"
-	 *     wp migrate-to-ssl migrate --sites="123" --dry-run
+	 *     wp sanitize users --keep="123"
 	 *
 	 * @when after_wp_load
 	 */
 
 	function users( $args, $assoc_args ) {
 
+		$keep_users = ( isset( $assoc_args['keep'] ) ) ? $assoc_args['keep'] : false;
+
 		WP_CLI::success( 'ahoy' );
 
 	}/* users() */
 
 
-}/* class UBC_Sanitize_Users_For_Staging */
+}/* class UBC_Sanitize_For_Staging */
 
 
 // Register the command, only appropriate on a Multisite Install
-WP_CLI::add_command( 'sanitize', 'UBC_Sanitize_Users_For_Staging', array(
+WP_CLI::add_command( 'sanitize', 'UBC_Sanitize_For_Staging', array(
 	'before_invoke' => function(){
 		if ( ! is_multisite() ) {
 			WP_CLI::error( 'This is not a multisite install.' );
