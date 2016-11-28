@@ -1,8 +1,8 @@
 {
-    "name": "ubc/sanitize-users-for-staging",
+    "name": "ubc/wp-cli-sanitize-users-for-staging",
     "description": "",
     "type": "wp-cli-package",
-    "homepage": "https://github.com/ubc/sanitize-users-for-staging",
+    "homepage": "https://github.com/ubc/wp-cli-sanitize-users-for-staging",
     "license": "MIT",
     "authors": [],
     "minimum-stability": "dev",
